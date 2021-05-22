@@ -82,15 +82,15 @@ namespace Rema1000.Controllers
         [HttpPost]
         public async Task<ActionResult<Product>> PostProducts(Product products, int supplierID, int categoryID)
         {
-            //if (supplierID != null)
-            //{
+            if (SupplierExists(supplierID))
+            {
                 products.Supplier = await _context.Supplier.FindAsync(supplierID);
-            //}
+            }
 
-            //if (categoryID != null)
-            //{
+            if (CategoryExists(categoryID))
+            {
                 products.Category = await _context.Category.FindAsync(categoryID);
-            //}
+            }
 
             _context.Products.Add(products);
             await _context.SaveChangesAsync();
@@ -117,6 +117,14 @@ namespace Rema1000.Controllers
         private bool ProductsExists(int id)
         {
             return _context.Products.Any(e => e.ID == id);
+        }
+        private bool CategoryExists(int id)
+        {
+            return _context.Category.Any(e => e.ID == id);
+        }
+        private bool SupplierExists(int id)
+        {
+            return _context.Supplier.Any(e => e.ID == id);
         }
     }
 }
