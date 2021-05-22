@@ -80,8 +80,18 @@ namespace Rema1000.Controllers
         // POST: api/Products
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
-        public async Task<ActionResult<Product>> PostProducts(Product products)
+        public async Task<ActionResult<Product>> PostProducts(Product products, int supplierID, int categoryID)
         {
+            //if (supplierID != null)
+            //{
+                products.Supplier = await _context.Supplier.FindAsync(supplierID);
+            //}
+
+            //if (categoryID != null)
+            //{
+                products.Category = await _context.Category.FindAsync(categoryID);
+            //}
+
             _context.Products.Add(products);
             await _context.SaveChangesAsync();
 
